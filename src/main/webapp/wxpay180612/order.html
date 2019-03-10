@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<!-- saved from url=(0050)http://demo.migong.org/2015/1020-1095/hongbao.html -->
+<html lang="zh-CN" class="gr__demo_migong_org"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>视频打赏</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <style>
+		
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html{
+            color: #fff;
+            font-size: 14px;
+        }
+        .container{
+            text-align: center;
+            width: 100%;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 15px 5px;
+            //background-color: #000000;
+			background-image: url(b.jpg); 
+            height: 100%;
+            position: absolute;
+        }
+        .hongbao{
+            height: 380px;
+            background: #A5423A;
+            width: 300px;
+            left: 0;
+            top: 0;
+            border-radius: 10px;
+            margin: 0 auto;
+        }
+        .topcontent{
+            height: 200px;
+            border: 1px solid #BD503A;
+            background-color: #BD503A;
+            border-radius: 10px 10px 50% 50% / 10px 10px 15% 15%;
+            box-shadow: 0px 4px 0px -1px rgba(0,0,0,0.2);
+        }
+        .avatar{
+            position: relative;
+        }
+        .avatar span{
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            -webkit-transform: rotate(45deg);
+                -ms-transform: rotate(45deg);
+                    transform: rotate(45deg);
+            font-size: 2em;
+            font-weight: bolder;
+        }
+        #close{
+            color: rgba(0,0,0,0.5);
+        }
+        .avatar img{
+            border: 1px solid #BD503A;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-top: 10%;
+        }
+        .topcontent h2{
+            margin: 15px 0;
+        }
+        .text{
+            color: #999;
+        }
+        .description{
+            margin: 25px 0;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        #chai{
+            width: 100px;
+            height: 100px;
+            border: 1px solid #FFA73A;
+            background-color: #FFA73A;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 25px;
+            display: inline-block;
+            margin-top: -50px;
+            box-shadow: 0px 4px 0px 0px rgba(0, 0, 0, 0.2);
+        }
+        #chai span{
+            margin-top: 35px;
+            display: inline-block;
+        }
+        .rotate{
+            -webkit-animation: anim .6s infinite alternate;
+                -ms-animation: anim .6s infinite alternate;
+                    animation: anim .6s infinite alternate;
+        }
+        @-webkit-keyframes anim {
+            from { -webkit-transform: rotateY(180deg); }
+            to { -webkit-transform: rotateY(360deg); }
+        }
+        @-ms-keyframes anim {
+            from { -ms-transform: rotateY(180deg); }
+            to { -ms-transform: rotateY(360deg); }
+        }
+        @keyframes anim {
+            from { transform: rotateY(180deg); }
+            to { transform: rotateY(360deg); }
+        }
+    </style>
+</head>
+<body data-gr-c-s-loaded="true">
+    <div class="container" id="container">
+        <div class="hongbao">
+            <div class="topcontent">
+                <div class="avatar">
+                    <h2>打赏看视频</h2>
+                    <span id="close">+</span>
+                </div>
+				<span class="text">视频大小：100M，时长：10分钟</span>
+                <h1 style="margin-top:20px;">¥2.99</h1> 
+                
+                
+            </div>
+            <div class="chai" id="chai">
+                <span><b>打赏</b></span>
+            </div>
+			<div style="margin-top:25px;color: #fff;font-size: 15px;">
+                <span><u>我也要赚钱</u></span>
+            </div>
+			<div class="description">（内容由用户发布，并非平台提供，赏金归发布者）</div>
+        </div>
+    </div>
+    <script>
+        var oChai = document.getElementById("chai");
+        var oClose = document.getElementById("close");
+        var oContainer = document.getElementById("container");
+
+        oChai.onclick = function (){
+            oChai.setAttribute("class", "rotate");
+        }
+        oClose.onclick = function (){
+            oContainer.style.display = "none";
+        }
+    </script>
+
+</body></html>

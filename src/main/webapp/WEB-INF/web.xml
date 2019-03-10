@@ -1,0 +1,137 @@
+<!DOCTYPE web-app PUBLIC
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+
+    <display-name>Archetype Created Web Application</display-name>
+
+    <!-- 地址为http://localhost:8080/  显示的默认网页-->
+    <welcome-file-list>
+        <welcome-file>/pages/login.jsp</welcome-file>
+    </welcome-file-list>
+
+    <!-- Spring监听器 -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <!--<listener>-->
+        <!--<listener-class>com.smile.azxx.web.listener.ServletContextSettingListener</listener-class>-->
+    <!--</listener>-->
+
+    <!--加载Spring的配置文件到上下文中去-->
+    <!-- Spring ApplicationContext配置文件的路径,可使用通配符,多个路径用,号分隔 此参数用于后面的Spring Context
+    Loader -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath*:**/applicationContent*.xml</param-value>
+    </context-param>
+
+    <!-- 项目加密方式配置(初始指定之后请勿修改!!!)-->
+    <!--<context-param>-->
+        <!--<param-name>SecureType</param-name>-->
+        <!--<param-value>MD5</param-value>-->
+    <!--</context-param>-->
+
+    <!-- spring MVC config start-->
+    <servlet>
+        <servlet-name>spring</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <!-- 此处指向的的是SpringMVC的配置文件 -->
+            <param-value>/WEB-INF/spring-mvc.xml</param-value>
+        </init-param>
+        <!--配置容器在启动的时候就加载这个servlet并实例化-->
+        <load-on-startup>1</load-on-startup>
+        <!--<multipart-config>-->
+            <!--<max-file-size>52428800</max-file-size>-->
+            <!--<max-request-size>52428800</max-request-size>-->
+            <!--<file-size-threshold>0</file-size-threshold>-->
+        <!--</multipart-config>-->
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.js</url-pattern>
+        <url-pattern>*.css</url-pattern>
+        <url-pattern>*.png</url-pattern>
+        <url-pattern>*.jpg</url-pattern>
+        <url-pattern>*.ico</url-pattern>
+        <!--<url-pattern>/images/*</url-pattern>-->
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>spring</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+
+    <!-- spring MVC config end-->
+
+
+
+
+
+    <!-- shiro过滤器定义 -->
+    <filter>
+        <filter-name>shiroFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <init-param>
+            <!-- 该值缺省为false,表示生命周期由SpringApplicationContext管理,设置为true则表示由ServletContainer管理 -->
+            <param-name>targetFilterLifecycle</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>shiroFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <!--  字符集过滤  -->
+    <filter>
+        <filter-name>encodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>Spring OpenEntityManagerInViewFilter</filter-name>
+        <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>Spring OpenEntityManagerInViewFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- 出错页面定义 -->
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/WEB-INF/views/error/500.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/views/error/500.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/views/error/404.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>403</error-code>
+        <location>/WEB-INF/views/error/404.jsp</location>
+    </error-page>
+</web-app>

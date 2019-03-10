@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+
+    <bean id="shiroConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:/shiro/shiro.properties"/>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+    </bean>
+
+    <!-- 整合shiro -->
+    <!-- 自定义Realm -->
+    <bean id="myRealm" class="com.smile.azxx.shiro.MyRealm">
+
+    </bean>
+
+    <!-- 安全管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="${shiro.activeRealm}"/>
+        <property name="cacheManager" ref="cacheManager"/>
+    </bean>
+
+    <!-- Shiro过滤器 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <!-- Shiro的核心安全接口,这个属性是必须的 -->
+        <property name="securityManager" ref="securityManager"/>
+        <!-- 身份认证失败，则跳转到登录页面的配置 -->
+        <property name="loginUrl" value="/pages/login.jsp"/>
+        <!-- 权限认证失败，则跳转到指定页面 -->
+        <property name="unauthorizedUrl" value="/pages/login.jsp"/>
+        <!--<property name="filters">-->
+        <!--<map>-->
+        <!--<entry key="authc" value-ref="shiro" />-->
+        <!--<entry key="sysUser" value-ref="sysUserFilter" />-->
+        <!--<entry key="kickout" value-ref="kickoutFilter"/>-->
+        <!--<entry key="xss" value-ref="xssFilter"/>-->
+        <!--</map>-->
+        <!--</property>-->
+        <!-- Shiro连接约束配置,即过滤链的定义 -->
+        <property name="filterChainDefinitionMap" ref="shiroFilterChainDefinitionsMap"/>
+        <!-- Shiro连接约束配置,即过滤链的定义 -->
+        <!--<property name="filterChainDefinitions">-->
+        <!--<value>-->
+        <!--/login=anon-->
+        <!--/static/**=anon-->
+        <!--/scripts/**=anon-->
+        <!--/**=authc-->
+        <!--</value>-->
+        <!--</property>-->
+    </bean>
+
+    <!--<bean id="xssFilter" class="com.eastcom_sw.core.web.filter.XssFilter">-->
+    <!--校验失败的跳转页面 -->
+    <!--<property name="unauthorizedUrl" value="/pages/xsscheckerror.jsp"/>-->
+    <!--<property name="safeless" ref="safelessList"/>-->
+    <!--是否校验req.getQueryString -->
+    <!--<property name="isCheckQueryString" value="false"/>-->
+    <!--是否校验参数的name值 -->
+    <!--<property name="isCheckParamName" value="true"/>-->
+    <!--</bean>-->
+    <!--Shiro filter url configs -->
+    <bean id="shiroFilterChainDefinitionsMap" class="com.smile.azxx.shiro.ShiroFilterChainDefinitionsMap"/>
+
+    <!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <!-- 开启Shiro注解 -->
+    <!--<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"-->
+    <!--depends-on="lifecycleBeanPostProcessor">-->
+        <!--<property name="proxyTargetClass" value="true"/>-->
+    <!--</bean>-->
+    <!--<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">-->
+        <!--<property name="securityManager" ref="securityManager"/>-->
+    <!--</bean>-->
+
+    <!-- 用户授权信息Cache -->
+    <bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager"/>
+
+    <!-- 如果要实现cas的remember me的功能，需要用到下面这个bean，并设置到securityManager的subjectFactory中 -->
+    <!--<bean id="casSubjectFactory" class="org.apache.shiro.cas.CasSubjectFactory"/>-->
+
+    <!-- 基于Form表单的身份验证过滤器 -->
+    <bean id="formAuthenticationFilter" class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter">
+        <property name="usernameParam" value="username"/>
+        <property name="passwordParam" value="password"/>
+        <property name="rememberMeParam" value="rememberMe"/>
+        <property name="loginUrl" value="/login"/>
+    </bean>
+
+    <!-- 自定义拦截器 -->
+    <!--<bean id="sysUserFilter" class="com.smile.azxx.shiro.SysUserFilter"></bean>-->
+
+    <!--<bean id="shiro" class="com.smile.azxx.shiro.ShiroFilter"/>-->
+
+    <!--<bean id="kickoutFilter" class="com.myweb.spring.KickoutSessionControlFilter">-->
+    <!--<property name="kickoutUrl" value="/api/user/login"/>-->
+    <!--<property name="SessionManager" ref="sessionManager"/>-->
+    <!--<property name="cacheManager" ref="cacheManager"/>-->
+    <!--<property name="kickoutAfter" value="false"/>-->
+    <!--<property name="maxSession" value="2"/>-->
+
+
+</beans>
